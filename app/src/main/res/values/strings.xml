@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Journey Rider</string>
+
+
+
+    <string-array name="planets">
+        <item>Home</item>
+        <item>Android</item>
+        <item>Xamarin</item>z
+        <item>WordPress</item>
+        <item>Java</item>
+        <item>Tools</item>
+        <item>Servlets</item>
+    </string-array>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+</resources>
