@@ -5,15 +5,17 @@
 
     <string-array name="planets">
         <item>Home</item>
-        <item>Android</item>
-        <item>Xamarin</item>z
-        <item>WordPress</item>
-        <item>Java</item>
-        <item>Tools</item>
-        <item>Servlets</item>
+        <item>Search</item>
+        <item>Acomodation</item>z
+        <item>Transport</item>
+        <item>Update</item>
+        <item>About Us</item>
     </string-array>
 <string name="drawer_open">Open Naviagtion drawer</string>
     <string name="drawer_close">Close Naviagtion drawer</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
