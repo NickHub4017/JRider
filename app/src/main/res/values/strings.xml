@@ -12,7 +12,8 @@
         <item>Tools</item>
         <item>Servlets</item>
     </string-array>
-
+<string name="drawer_open">Open Naviagtion drawer</string>
+    <string name="drawer_close">Close Naviagtion drawer</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 </resources>

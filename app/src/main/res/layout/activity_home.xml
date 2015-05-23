@@ -13,6 +13,7 @@
         android:layout_height="match_parent"></FrameLayout>
 
     <ListView
+        android:background="@color/button_material_dark"
         android:id="@+id/drawerList"
 
         android:layout_width="240dp"
