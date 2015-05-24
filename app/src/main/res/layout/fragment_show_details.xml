@@ -22,7 +22,7 @@
         android:gravity="center_vertical|center_horizontal" />
 
     <ImageView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/img_place"
         android:layout_weight="0.82"
@@ -35,6 +35,32 @@
         android:layout_height="wrap_content"
         android:text="New Text"
         android:id="@+id/txt_desc" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        >
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Navigate"
+            android:id="@+id/bn_nav"
+            android:layout_gravity="left"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Go Back"
+
+            android:id="@+id/btn_can"
+            android:layout_gravity="right"/>
+    </LinearLayout>
+
 </LinearLayout>
 
 </ScrollView>
