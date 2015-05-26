@@ -1,9 +1,11 @@
 package it.uom.group10.journeyrider;
 
+import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -98,6 +100,14 @@ public class HomeActivity extends ActionBarActivity implements ShowDetailsFragme
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Toast.makeText(getApplicationContext(), planets[i], Toast.LENGTH_LONG).show();
+                if(i==1){
+                    FragmentManager fm = getFragmentManager();
+                    Search_places s_places = new Search_places(getApplicationContext());
+                    s_places.setRetainInstance(true);
+                    s_places.show(fm,"Serach_place");
+                    s_places.setShowsDialog(true);
+                    s_places.setStyle(s_places.STYLE_NO_TITLE,0);
+                }
                 drawerLayout.closeDrawer(Gravity.LEFT);
             }
         });

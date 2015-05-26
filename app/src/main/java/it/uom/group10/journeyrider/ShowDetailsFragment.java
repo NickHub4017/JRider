@@ -59,6 +59,4 @@ public class ShowDetailsFragment extends DialogFragment implements View.OnClickL
         public void onBtnClick(int position,double fromLat,double fromLon,double toLat,double toLon);
     }
 
-
-
 }

@@ -1,0 +1,111 @@
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context="it.uom.group10.journeyrider.Search_places"
+    >
+<LinearLayout  android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+
+        >
+
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="Select places "
+            android:textAppearance="?android:attr/textAppearanceLarge"
+
+
+            android:paddingBottom="5dp"
+           android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:paddingTop="5dp"
+            android:text="Select District"
+            android:id="@+id/textView" />
+
+        <AutoCompleteTextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:id="@+id/auto_distr"
+            android:singleLine="false"
+            android:textColor="#ff11100c"
+            android:textColorHint="#ff1e1e1e"
+            android:textColorLink="#ff1e1e1e" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Select Town"
+            android:id="@+id/textView2" />
+
+        <AutoCompleteTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:id="@+id/auto_twn" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="       Select category                 "
+            android:id="@+id/textView3" />
+
+        <AutoCompleteTextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:id="@+id/auto_cat" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Select place"
+            android:id="@+id/textView4" />
+
+        <AutoCompleteTextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:id="@+id/auto_plce" />
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Search"
+                android:id="@+id/button2" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Back"
+                android:id="@+id/button3" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>
+</ScrollView>
