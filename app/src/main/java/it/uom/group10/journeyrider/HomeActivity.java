@@ -128,17 +128,14 @@ public class HomeActivity extends ActionBarActivity implements ShowDetailsFragme
 
                 }
                 else if (i==5){
-
-                }
-                else if (i==6){
                     FragmentManager fm = getFragmentManager();
                     AboutUs about = new AboutUs();
                     about.setRetainInstance(true);
-                    about.show(fm,"Serach_place");
+                    about.show(fm,"abtus");
                     about.setShowsDialog(true);
                     about.setStyle(about.STYLE_NO_TITLE,0);
-
                 }
+
                 drawerLayout.closeDrawer(Gravity.LEFT);
             }
         });
@@ -156,11 +153,6 @@ public class HomeActivity extends ActionBarActivity implements ShowDetailsFragme
                 R.id.fragment)).getMap();
 
         googleMap.addMarker(new MarkerOptions().position(new LatLng(6.9229037,79.8835855)).title("Hi").draggable(true));
-
-        /*Polyline line = googleMap.addPolyline(new PolylineOptions()
-                .add(new LatLng(6.9255009,79.9535368), new LatLng(6.9455009,79.9735368))
-                .width(5)
-                .color(Color.RED));*/
 
 
     }
@@ -321,7 +313,16 @@ catch (Exception e){
 
     @Override
     public void ComToMap(String dist,String twn,String cat,String pla) {
-        Toast.makeText(getApplicationContext(),"d-"+dist+" t-"+twn+" c-"+cat+" p-"+pla,Toast.LENGTH_LONG).show();
+
+        if (dist.isEmpty() ){
+            Toast.makeText(getApplicationContext(),"You need to select at District to serach ",Toast.LENGTH_LONG).show();
+        }
+        else {
+            Place res[]=db.getSerachPlaces(dist,twn,cat,pla);
+            Toast.makeText(getApplicationContext(),"**************"+res.length,Toast.LENGTH_LONG).show();
+
+        }
+
         /*for (int i=0;i<x.length;i++){
             markPositions(x[i].latitude,x[0].longitude,"1");
         }*/

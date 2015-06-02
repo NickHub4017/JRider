@@ -67,6 +67,9 @@ public class Search_places extends DialogFragment {
         ac_place.setDropDownBackgroundResource(R.color.abc_search_url_text_pressed);
         ac_cat.setDropDownBackgroundResource(R.color.abc_search_url_text_pressed);
 
+        ArrayAdapter adp=new ArrayAdapter(getActivity().getApplicationContext(),android.R.layout.simple_list_item_1,db.getAllCategory());
+        ac_cat.setAdapter(adp);
+        ac_cat.setThreshold(1);
         final String[] dists=db.getAllDistrict();
 
         ArrayAdapter adapter = new ArrayAdapter(getActivity().getApplicationContext(),android.R.layout.simple_list_item_1,dists);
@@ -96,11 +99,7 @@ public class Search_places extends DialogFragment {
             }
         });
 
-        ac_cat.setThreshold(1);
-        String x[]={"1","2","3"};
-        ArrayAdapter adapter4 = new ArrayAdapter(getActivity().getApplicationContext(),android.R.layout.simple_list_item_1,x);
 
-        ac_cat.setAdapter(adapter4);
 
 
         ac_cat.setOnItemClickListener(new AdapterView.OnItemClickListener() {

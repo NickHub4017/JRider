@@ -86,6 +86,29 @@ public class JRdb extends SQLiteOpenHelper {
         return results;
 
     }
+    public void insertNewdummyData(){
+        SQLiteDatabase database=this.getWritableDatabase();
+        ContentValues values =new ContentValues();
+        values.put("id",1);
+        values.put("catname","food");
+        database.insert("category", null, values);
+        values.clear();
+
+        values.put("id",2);
+        values.put("catname","natural");
+        database.insert("category", null, values);
+        values.clear();
+
+        values.put("id",3);
+        values.put("catname","historical");
+        database.insert("category", null, values);
+        values.clear();
+
+        values.put("id",4);
+        values.put("catname","musical");
+        database.insert("category", null, values);
+        values.clear();
+    }
     public void insertDummyData(){
         SQLiteDatabase database=this.getWritableDatabase();
         ContentValues values =new ContentValues();
@@ -229,6 +252,7 @@ public class JRdb extends SQLiteOpenHelper {
 
     public String[] getAllDistrict(){
         try {
+            insertNewdummyData();
             insertDummyData();
         }
         catch (Exception e){
@@ -330,8 +354,7 @@ public class JRdb extends SQLiteOpenHelper {
         SQLiteDatabase database = this.getReadableDatabase();
         String select_item_dist_Query = "SELECT * FROM place where city_cityID='"+cityID+"'";
         Cursor cursor = database.rawQuery(select_item_dist_Query,null);
-        String results[]=new String[cursor.getCount()+1];
-        results[0]="Any Place";
+        String results[]=new String[cursor.getCount()];
         int i=1;
         if(cursor.moveToFirst()){
             do{
@@ -354,35 +377,20 @@ public class JRdb extends SQLiteOpenHelper {
         return cityID;
     }
 
-    public LatLng[] getSerchplaces(String twn,String place,String cat){
-        String select_item_dist_Query;
-        SQLiteDatabase database = this.getReadableDatabase();
-        if (cat==null && place ==null){
-             select_item_dist_Query = "SELECT * FROM place where city_cityID='"+twn+"'";
-        }
-        else if (cat==null && place!=null){
-            select_item_dist_Query="SELECT * FROM place where placeName='"+place+"'";
-        }
-        else {
-            select_item_dist_Query="SELECT * FROM place";
-        }
-
-        Cursor cursor = database.rawQuery(select_item_dist_Query,null);
-       LatLng[] results=new LatLng[cursor.getCount()];
-
-        int i=1;
-        if(cursor.moveToFirst()){
-            do{
-                results[i]=new LatLng(cursor.getDouble(cursor.getColumnIndex("lat")),cursor.getDouble(cursor.getColumnIndex("long")));
-
-                i++;
-            }while (cursor.moveToNext());
-        }
-
-
-        return  results;
+public String[] getCategory(){
+    SQLiteDatabase database = this.getReadableDatabase();
+    String select_item_cat_Query = "SELECT * FROM category";
+    Cursor cursor = database.rawQuery(select_item_cat_Query,null);
+    String results[]=new String[cursor.getCount()];
+    int i=1;
+    if(cursor.moveToFirst()){
+        do{
+            results[i]=cursor.getString(cursor.getColumnIndex("placeName"));
+            i++;
+        }while (cursor.moveToNext());
     }
-
+    return results;
+}
 
     public Place[] getAllAccomodation(int hoteltype){
 
@@ -402,5 +410,48 @@ public class JRdb extends SQLiteOpenHelper {
         }
         return results;
 
+    }
+
+    public Place[] getSerachPlaces(String dist,String twn,String cat,String pla){
+        SQLiteDatabase database = this.getReadableDatabase();
+
+        String select_item_dist_Query = "SELECT * FROM place";
+        if(twn.isEmpty() && cat.isEmpty() && pla.isEmpty()){//filter only from district
+            int cityID=getCityID(twn);
+            select_item_dist_Query = "SELECT * FROM place JOIN category ON place.catid=category.id JOIN town ON town.townid=place.city_cityID JOIN district ON district.districtid=town.districtid where districtname='"+dist+"'";
+        }
+        else if(twn.isEmpty() && !cat.isEmpty() && pla.isEmpty()){//dist and cat
+            select_item_dist_Query = "SELECT * FROM place JOIN category ON place.catid=category.id JOIN town ON town.townid=place.city_cityID JOIN district ON district.districtid=town.districtid where districtname='"+dist+"' and categoryname='"+cat+"'";
+
+        }
+        else if(!twn.isEmpty() && cat.isEmpty() && pla.isEmpty())//only town
+        {
+            select_item_dist_Query = "SELECT * FROM place JOIN category ON place.catid=category.id JOIN town ON town.townid=place.city_cityID JOIN district ON district.districtid=town.districtid where townname='"+twn+"'";
+        }
+        else if(!twn.isEmpty() && cat.isEmpty() && !pla.isEmpty())//town and place
+        {
+            select_item_dist_Query = "SELECT * FROM place JOIN category ON place.catid=category.id JOIN town ON town.townid=place.city_cityID JOIN district ON district.districtid=town.districtid where townname='"+twn+"' and placeName='"+pla+"'";
+        }
+        else if(!twn.isEmpty() && !cat.isEmpty() && pla.isEmpty())//town and cat
+        {
+            select_item_dist_Query = "SELECT * FROM place JOIN category ON place.catid=category.id JOIN town ON town.townid=place.city_cityID JOIN district ON district.districtid=town.districtid where townname='"+twn+"' and catname='"+cat+"'";
+        }
+        else if(!twn.isEmpty() && !cat.isEmpty() && !pla.isEmpty())//dist and cat
+        {
+            select_item_dist_Query = "SELECT * FROM place JOIN category ON place.catid=category.id JOIN town ON town.townid=place.city_cityID JOIN district ON district.districtid=town.districtid where districtname='"+dist+"' and catname='"+cat+"'";
+        }
+
+        Cursor cursor = database.rawQuery(select_item_dist_Query,null);
+        Place results[]=new Place[cursor.getCount()];
+        int i=0;
+        if(cursor.moveToFirst()){
+            do{
+                results[i]=new Place(cursor.getInt(cursor.getColumnIndex("placeID")),cursor.getString(cursor.getColumnIndex("placeName")),cursor.getString(cursor.getColumnIndex("photo")),
+                        cursor.getString(cursor.getColumnIndex("catid")),cursor.getString(cursor.getColumnIndex("shtDes")),cursor.getString(cursor.getColumnIndex("lngDes")),
+                        cursor.getInt(cursor.getColumnIndex("city_cityID")),cursor.getDouble(cursor.getColumnIndex("lat")),cursor.getDouble(cursor.getColumnIndex("long")));
+                i++;
+            }while (cursor.moveToNext());
+        }
+        return results;
     }
 }
