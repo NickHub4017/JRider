@@ -253,13 +253,13 @@ public class JRdb extends SQLiteOpenHelper {
     public int getDistID(String districtName){
         SQLiteDatabase database = this.getReadableDatabase();
 
-        String select_item_dist_Query = "SELECT id FROM district where districtname='"+districtName+"'";
+        String select_item_dist_Query = "SELECT districtid FROM district where districtname='"+districtName+"'";
         Cursor cursor = database.rawQuery(select_item_dist_Query,null);
         String results[]=new String[cursor.getCount()];
         int i=0;
         if(cursor.moveToFirst()){
             do{
-                results[i]=cursor.getString(cursor.getColumnIndex("id"));
+                results[i]=cursor.getString(cursor.getColumnIndex("districtid"));
                 i++;
             }while (cursor.moveToNext());
         }
@@ -345,11 +345,11 @@ public class JRdb extends SQLiteOpenHelper {
 
     public int getCityID(String city){
         SQLiteDatabase database = this.getReadableDatabase();
-        String select_item_dist_Query1 = "SELECT cityID FROM city where cityName='"+city+"'";
+        String select_item_dist_Query1 = "SELECT townid FROM town where townname='"+city+"'";
         Cursor cursor1 = database.rawQuery(select_item_dist_Query1,null);
         int cityID=-1;
         if(cursor1.moveToFirst()){
-            cityID=cursor1.getInt(cursor1.getColumnIndex("cityID"));
+            cityID=cursor1.getInt(cursor1.getColumnIndex("townid"));
         }
         return cityID;
     }

@@ -62,6 +62,7 @@ public class HomeActivity extends ActionBarActivity implements ShowDetailsFragme
     private String[] planets;
     private ActionBarDrawerToggle drawerListner;
     Polyline k;
+    Polyline line;
 
 
 
@@ -183,20 +184,27 @@ public class HomeActivity extends ActionBarActivity implements ShowDetailsFragme
                 Bundle bundle = new Bundle();
                 bundle.putDouble("toDataLat", (double)marker.getPosition().latitude);
                 bundle.putDouble("toDataLong",(double)marker.getPosition().longitude);
-                bundle.putDouble("fromDataLat",(double)mymrk.getPosition().latitude);
-                bundle.putDouble("fromDataLong",(double) mymrk.getPosition().longitude);
-
+                if(mymrk==null){
+                    bundle.putDouble("fromDataLat",0.0);
+                    bundle.putDouble("fromDataLong",0.0);
+                }
+                else {
+                    bundle.putDouble("fromDataLat", (double) mymrk.getPosition().latitude);
+                    bundle.putDouble("fromDataLong", (double) mymrk.getPosition().longitude);
+                }
 // set Fragmentclass Arguments
+try {
+    ShowDetailsFragment testfr = new ShowDetailsFragment();
+    testfr.setArguments(bundle);
+    testfr.setRetainInstance(true);
+    //
 
-
-
-                ShowDetailsFragment testfr = new ShowDetailsFragment();
-                testfr.setArguments(bundle);
-                testfr.setRetainInstance(true);
-                //
-
-                testfr.setStyle(testfr.STYLE_NO_TITLE, 0);
-                testfr.show(fm,"Showing_details");
+    testfr.setStyle(testfr.STYLE_NO_TITLE, 0);
+    testfr.show(fm, "Showing_details");
+}
+catch (Exception e){
+    System.out.println(e.getMessage());
+}
 //https://maps.googleapis.com/maps/api/directions/json?origin=40.722543,%20-73.998585&destination=40.7064,%20-74.0094&waypoints=optimize:true|40.722543,%20-73.998585|40.7064,%20-74.0094&sensor=false
                 return true;
             }
@@ -262,6 +270,10 @@ public class HomeActivity extends ActionBarActivity implements ShowDetailsFragme
         }
         else if (position==R.id.bn_nav){
             try {
+                if (line!=null){
+                    line.remove();
+                    line=null;
+                }
                 new ReadTask().execute("https://maps.googleapis.com/maps/api/directions/json?origin="+mymrk.getPosition().latitude+"%2C"+mymrk.getPosition().longitude+"&destination="+toLat+"%2C"+toLon+"&waypoints=optimize:true%7C"+fromLat+"%2C"+fromLon+"%7C"+toLat+"%2C"+toLon+"&sensor=false");
             }
             catch (Exception e){
@@ -308,10 +320,11 @@ public class HomeActivity extends ActionBarActivity implements ShowDetailsFragme
     }
 
     @Override
-    public void ComToMap(LatLng[] x) {
-        for (int i=0;i<x.length;i++){
+    public void ComToMap(String dist,String twn,String cat,String pla) {
+        Toast.makeText(getApplicationContext(),"d-"+dist+" t-"+twn+" c-"+cat+" p-"+pla,Toast.LENGTH_LONG).show();
+        /*for (int i=0;i<x.length;i++){
             markPositions(x[i].latitude,x[0].longitude,"1");
-        }
+        }*/
     }
 
     @Override
@@ -350,7 +363,6 @@ public class HomeActivity extends ActionBarActivity implements ShowDetailsFragme
         protected void onPostExecute(String s) {
            // Toast.makeText(getApplicationContext(),s,Toast.LENGTH_LONG).show();
             LatLng prvs=null;
-            Polyline line;
             try {
 
                 JSONObject k=new JSONObject(s);

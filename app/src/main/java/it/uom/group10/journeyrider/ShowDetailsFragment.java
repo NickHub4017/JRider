@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -28,7 +29,7 @@ public class ShowDetailsFragment extends DialogFragment implements View.OnClickL
 
         View view=inflater.inflate(R.layout.fragment_show_details,container);
         Button btn_nav=(Button)view.findViewById(R.id.bn_nav);
-        btn_nav.setOnClickListener(this);
+
         Button btn_can=(Button)view.findViewById(R.id.btn_can);
         btn_can.setOnClickListener(this);
 
@@ -36,6 +37,14 @@ public class ShowDetailsFragment extends DialogFragment implements View.OnClickL
         toLong=getArguments().getDouble("toDataLong");
         fromLat=getArguments().getDouble("fromDataLat");
         fromLong=getArguments().getDouble("fromDataLong");
+if(fromLong==0.0 && fromLat==0.0){
+    Toast.makeText(getActivity().getApplicationContext(),"You cannot navigate GPS not set yet",Toast.LENGTH_LONG).show();
+    btn_nav.setEnabled(false);
+}
+        else{
+    Toast.makeText(getActivity().getApplicationContext(),""+toLat+" "+toLong+" "+fromLat+" "+fromLong,Toast.LENGTH_LONG).show();
+}
+        btn_nav.setOnClickListener(this);
 
         return view;
     }
