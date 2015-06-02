@@ -326,7 +326,23 @@ catch (Exception e){
         }
         else {
             Place res[]=db.getSerachPlaces(dist,twn,cat,pla);
-            Toast.makeText(getApplicationContext(),"**************"+res.length,Toast.LENGTH_LONG).show();
+
+            //Toast.makeText(getApplicationContext(),"**************"+res.length,Toast.LENGTH_LONG).show();
+            googleMap.clear();
+            try {
+                if(mymrk==null){
+                    Log.d("MymrkClear","NullIF");
+                }
+                else{
+                    Log.d("MymrkClear","NullELSE");
+                }
+                mymrk=null;
+            }catch (Exception e){
+                Log.d("MymrkClear","Null");
+            }
+            for (Place x:res){
+                markPositions(x.getLat(),x.getLon(),x.getPlaceName());
+            }
 
         }
 
