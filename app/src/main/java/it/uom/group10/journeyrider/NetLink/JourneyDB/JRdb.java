@@ -321,7 +321,7 @@ public class JRdb extends SQLiteOpenHelper {
             do{
                 results[i]=new Place(cursor.getInt(cursor.getColumnIndex("placeID")),cursor.getString(cursor.getColumnIndex("placeName")),cursor.getString(cursor.getColumnIndex("photo")),
                         cursor.getString(cursor.getColumnIndex("catid")),cursor.getString(cursor.getColumnIndex("shtDes")),cursor.getString(cursor.getColumnIndex("lngDes")),
-                        cursor.getInt(cursor.getColumnIndex("city_cityID")),cursor.getDouble(cursor.getColumnIndex("lat")),cursor.getDouble(cursor.getColumnIndex("lon")));
+                        cursor.getInt(cursor.getColumnIndex("city_cityID")),cursor.getDouble(cursor.getColumnIndex("lat")),cursor.getDouble(cursor.getColumnIndex("long")));
                 i++;
             }while (cursor.moveToNext());
         }
@@ -354,7 +354,8 @@ public class JRdb extends SQLiteOpenHelper {
         SQLiteDatabase database = this.getReadableDatabase();
         String select_item_dist_Query = "SELECT * FROM place where city_cityID='"+cityID+"'";
         Cursor cursor = database.rawQuery(select_item_dist_Query,null);
-        String results[]=new String[cursor.getCount()];
+        String results[]=new String[cursor.getCount()+1];
+        results[0]="Any Place";
         int i=1;
         if(cursor.moveToFirst()){
             do{
@@ -421,7 +422,7 @@ public String[] getCategory(){
             select_item_dist_Query = "SELECT * FROM place JOIN category ON place.catid=category.id JOIN town ON town.townid=place.city_cityID JOIN district ON district.districtid=town.districtid where districtname='"+dist+"'";
         }
         else if(twn.isEmpty() && !cat.isEmpty() && pla.isEmpty()){//dist and cat
-            select_item_dist_Query = "SELECT * FROM place JOIN category ON place.catid=category.id JOIN town ON town.townid=place.city_cityID JOIN district ON district.districtid=town.districtid where districtname='"+dist+"' and categoryname='"+cat+"'";
+            select_item_dist_Query = "SELECT * FROM place JOIN category ON place.catid=category.id JOIN town ON town.townid=place.city_cityID JOIN district ON district.districtid=town.districtid where districtname='"+dist+"' and catname='"+cat+"'";
 
         }
         else if(!twn.isEmpty() && cat.isEmpty() && pla.isEmpty())//only town
