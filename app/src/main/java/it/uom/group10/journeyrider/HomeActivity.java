@@ -49,11 +49,14 @@ import java.util.List;
 
 import com.google.maps.android.PolyUtil;
 
+import it.uom.group10.journeyrider.NetLink.JourneyDB.JRdb;
 import it.uom.group10.journeyrider.NetLink.PathJSONParser;
+import it.uom.group10.journeyrider.NetLink.Place;
 
 
-public class HomeActivity extends ActionBarActivity implements ShowDetailsFragment.OnButtonClickListner,LocationListener {
+public class HomeActivity extends ActionBarActivity implements ShowDetailsFragment.OnButtonClickListner,LocationListener ,Search_places.comTomap,GetAccomadation.CallTomap{
     GoogleMap googleMap;
+    JRdb db=new JRdb(this);
     private DrawerLayout drawerLayout;
     private ListView listview;
     private String[] planets;
@@ -64,7 +67,7 @@ public class HomeActivity extends ActionBarActivity implements ShowDetailsFragme
 
 
     LocationManager locationManager;
-    static LatLng mypos=null;
+    static LatLng mypos=new LatLng(0,0);
     static Marker mymrk=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +111,33 @@ public class HomeActivity extends ActionBarActivity implements ShowDetailsFragme
                     s_places.setShowsDialog(true);
                     s_places.setStyle(s_places.STYLE_NO_TITLE,0);
                 }
+                else if (i==2){
+                    FragmentManager fm = getFragmentManager();
+                    GetAccomadation getAc = new GetAccomadation();
+                    getAc.setRetainInstance(true);
+                    getAc.show(fm,"Serach_acc");
+                    getAc.setShowsDialog(true);
+                    getAc.setStyle(getAc.STYLE_NO_TITLE,0);
+
+                }
+                else if (i==3){
+
+                }
+                else if (i==4){
+
+                }
+                else if (i==5){
+
+                }
+                else if (i==6){
+                    FragmentManager fm = getFragmentManager();
+                    AboutUs about = new AboutUs();
+                    about.setRetainInstance(true);
+                    about.show(fm,"Serach_place");
+                    about.setShowsDialog(true);
+                    about.setStyle(about.STYLE_NO_TITLE,0);
+
+                }
                 drawerLayout.closeDrawer(Gravity.LEFT);
             }
         });
@@ -143,7 +173,7 @@ public class HomeActivity extends ActionBarActivity implements ShowDetailsFragme
 
             }
         });
-        mymrk=googleMap.addMarker(new MarkerOptions().position(new LatLng(0,0)).title("me").draggable(false));
+
 
         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
@@ -245,16 +275,19 @@ public class HomeActivity extends ActionBarActivity implements ShowDetailsFragme
     @Override
     public void onLocationChanged(Location location) {
         if (mymrk==null){
-
+            mymrk=googleMap.addMarker(new MarkerOptions().position(mypos).title("me").draggable(false));
             mymrk.setPosition(new LatLng(location.getLatitude(),location.getLongitude()));
         }
         else  if ((mymrk.getPosition().latitude!=location.getLatitude())&&(mymrk.getPosition().longitude!=location.getLongitude())){
             //mymrk.setPosition(mypos);
-            mymrk.setPosition(new LatLng(location.getLatitude(),location.getLongitude()));
-            mymrk.setTitle("Me");
-            mymrk.setDraggable(false);
-            mypos=new LatLng(location.getLatitude(),location.getLongitude());
-            mymrk.setPosition(mypos);
+
+                mymrk.setPosition(new LatLng(location.getLatitude(), location.getLongitude()));
+                mymrk.setTitle("Me");
+                mymrk.setDraggable(false);
+                mypos = new LatLng(location.getLatitude(), location.getLongitude());
+                mymrk.setPosition(mypos);
+
+
         }
 
     }
@@ -272,6 +305,37 @@ public class HomeActivity extends ActionBarActivity implements ShowDetailsFragme
     @Override
     public void onProviderDisabled(String s) {
 
+    }
+
+    @Override
+    public void ComToMap(LatLng[] x) {
+        for (int i=0;i<x.length;i++){
+            markPositions(x[i].latitude,x[0].longitude,"1");
+        }
+    }
+
+    @Override
+    public void onCallMap(int type) {
+
+        Place[] hotels=db.getAllAccomodation(type);
+        //Toast.makeText(getApplicationContext(),type,Toast.LENGTH_LONG).show();
+        Log.e("onCallMap",""+type+"  "+hotels.length);
+        googleMap.clear();
+        try {
+            if(mymrk==null){
+                Log.d("MymrkClear","NullIF");
+            }
+            else{
+                Log.d("MymrkClear","NullELSE");
+            }
+            mymrk=null;
+        }catch (Exception e){
+            Log.d("MymrkClear","Null");
+        }
+        for (Place x:hotels){
+
+            this.markPositions(x.getLat(),x.getLon(),x.getPlaceName());
+        }
     }
 
 

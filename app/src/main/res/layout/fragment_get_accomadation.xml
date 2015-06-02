@@ -1,0 +1,71 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="it.uom.group10.journeyrider.GetAccomadation"
+    android:orientation="vertical">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="Select the Type of accomodation you are looking" />
+
+    <ImageButton
+        android:paddingTop="5dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/fivestar"
+        android:id="@+id/imagefivestarButton"
+       
+        />
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="Select the Type of accomodation you are looking" />
+    <ImageButton
+        android:paddingTop="15dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/fivestar"
+        android:id="@+id/imagefourstarButton"
+        />
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="Select the Type of accomodation you are looking" />
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/fivestar"
+        android:id="@+id/imagethreestarButton"
+        />
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="Select the Type of accomodation you are looking" />
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/fivestar"
+        android:id="@+id/imagetwostarButton"
+        />
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="Select the Type of accomodation you are looking" />
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/fivestar"
+        android:id="@+id/imageMidLuxuryButton"
+        />
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="Select the Type of accomodation you are looking" />
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/fivestar"
+        android:id="@+id/imageNormalButton"
+        />
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="Select the Type of accomodation you are looking" />
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/fivestar"
+        android:id="@+id/imageAnyButton"
+        />
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="Select the Type of accomodation you are looking" />
+
+</LinearLayout>

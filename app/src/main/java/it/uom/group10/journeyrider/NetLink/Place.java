@@ -6,7 +6,22 @@ import java.io.Serializable;
  * Created by NRV on 5/25/2015.
  */
 public class Place implements Serializable {
-    public Place(int placeID, String placeName, String photo, String placeType, String shtDes, String lngDes, int city_cityID) {
+    public Place(double lat, double lon, String placeName) {
+        this.lat = lat;
+        this.lon = lon;
+        this.placeName = placeName;
+    }
+
+    public double getLat() {
+
+        return lat;
+    }
+
+    public double getLon() {
+        return lon;
+    }
+
+    public Place(int placeID, String placeName, String photo, String placeType, String shtDes, String lngDes, int city_cityID,  double lat ,double lon) {
         this.placeID = placeID;
         this.placeName = placeName;
         this.photo = photo;
@@ -14,6 +29,9 @@ public class Place implements Serializable {
         this.shtDes = shtDes;
         this.lngDes = lngDes;
         this.city_cityID = city_cityID;
+        this.lat=lat;
+        this.lon=lon;
+
     }
     int city_cityID;
     int placeID;
@@ -22,6 +40,8 @@ public class Place implements Serializable {
     String placeType;
     String shtDes;
     String lngDes;
+    double lat;
+    double lon;
 
     public int getPlaceID() {
         return placeID;
