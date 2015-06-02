@@ -22,13 +22,19 @@
             android:text="New Button"
             android:id="@+id/button" />
 
-        <fragment
+
+
+
+    <fragment
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:name="com.google.android.gms.maps.MapFragment"
             android:id="@+id/fragment"
+        android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
+
+
 
 
     </FrameLayout>

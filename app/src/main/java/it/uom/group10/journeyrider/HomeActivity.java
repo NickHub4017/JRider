@@ -54,7 +54,7 @@ import it.uom.group10.journeyrider.NetLink.PathJSONParser;
 import it.uom.group10.journeyrider.NetLink.Place;
 
 
-public class HomeActivity extends ActionBarActivity implements ShowDetailsFragment.OnButtonClickListner,LocationListener ,Search_places.comTomap,GetAccomadation.CallTomap{
+public class HomeActivity extends ActionBarActivity implements ShowDetailsFragment.OnButtonClickListner,LocationListener ,Search_places.comTomap,GetAccomadation.CallTomap,Progress.progresscom{
     GoogleMap googleMap;
     JRdb db=new JRdb(this);
     private DrawerLayout drawerLayout;
@@ -62,7 +62,9 @@ public class HomeActivity extends ActionBarActivity implements ShowDetailsFragme
     private String[] planets;
     private ActionBarDrawerToggle drawerListner;
     Polyline k;
+    int x=0;
     Polyline line;
+    Progress prg = new Progress();
 
 
 
@@ -89,14 +91,14 @@ public class HomeActivity extends ActionBarActivity implements ShowDetailsFragme
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
-                Toast.makeText(getApplicationContext(),"Close", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(),"Close", Toast.LENGTH_LONG).show();
 
             }
 
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                Toast.makeText(getApplicationContext(), "Open", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "Open", Toast.LENGTH_LONG).show();
             }
         };
 
@@ -125,7 +127,12 @@ public class HomeActivity extends ActionBarActivity implements ShowDetailsFragme
 
                 }
                 else if (i==4){
-
+                    FragmentManager fm = getFragmentManager();
+                    Progress prg = new Progress();
+                    prg.setRetainInstance(true);
+                    prg.show(fm,"prg");
+                    prg.setShowsDialog(true);
+                    prg.setStyle(prg.STYLE_NO_TITLE,0);
                 }
                 else if (i==5){
                     FragmentManager fm = getFragmentManager();
@@ -186,7 +193,7 @@ public class HomeActivity extends ActionBarActivity implements ShowDetailsFragme
                 }
 // set Fragmentclass Arguments
 try {
-    ShowDetailsFragment testfr = new ShowDetailsFragment();
+    ShowDetailsFragment testfr = new ShowDetailsFragment(getApplicationContext());
     testfr.setArguments(bundle);
     testfr.setRetainInstance(true);
     //
@@ -352,8 +359,42 @@ catch (Exception e){
         }
     }
 
+    @Override
+    public void isjobdone() {
+        if(x<3){
+            FragmentManager fm = getFragmentManager();
+            Progress prg = new Progress();
+            prg.setRetainInstance(true);
+            prg.show(fm,"prg");
+            prg.setShowsDialog(true);
+            prg.setStyle(prg.STYLE_NO_TITLE,0);
+            prg.dismiss();
+            x++;
+            if(x>=3){
+                prg.dismiss();
+            }
+
+           // Toast.makeText(getApplicationContext(),"Hi"+x,Toast.LENGTH_LONG).show();
+        }
+
+
+    }
+
 
     private class ReadTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            FragmentManager fm = getFragmentManager();
+
+            prg.setRetainInstance(true);
+            prg.show(fm,"prg");
+            prg.setShowsDialog(true);
+            prg.setStyle(prg.STYLE_NO_TITLE,0);
+
+            //Toast.makeText(getApplicationContext(),"Hi-S",Toast.LENGTH_SHORT).show();
+        }
+
         @Override
         protected String doInBackground(String... url) {
 
@@ -362,6 +403,8 @@ catch (Exception e){
 
         @Override
         protected void onPostExecute(String s) {
+            //Toast.makeText(getApplicationContext(),"Hi-T",Toast.LENGTH_SHORT).show();
+
            // Toast.makeText(getApplicationContext(),s,Toast.LENGTH_LONG).show();
             LatLng prvs=null;
             try {
@@ -415,8 +458,8 @@ catch (Exception e){
             catch (JSONException e) {
                 e.printStackTrace();
             }
-
-
+prg.dismiss();
+            //Toast.makeText(getApplicationContext(),"Hi-U",Toast.LENGTH_SHORT).show();
 
         }
 

@@ -367,6 +367,21 @@ public class JRdb extends SQLiteOpenHelper {
 
     }
 
+    public Place getPlaceDetailsFromLatLong(double lat,double lon){
+        SQLiteDatabase database = this.getReadableDatabase();
+        String select_item_dist_Query = "SELECT * FROM place where lat="+lat+" and long="+lon;
+        Cursor cursor = database.rawQuery(select_item_dist_Query,null);
+        Place pl;
+        if(cursor.moveToFirst()){
+            pl=new Place(cursor.getInt(cursor.getColumnIndex("placeID")),cursor.getString(cursor.getColumnIndex("placeName")),cursor.getString(cursor.getColumnIndex("photo")),
+                    cursor.getString(cursor.getColumnIndex("catid")),cursor.getString(cursor.getColumnIndex("shtDes")),cursor.getString(cursor.getColumnIndex("lngDes")),
+                    cursor.getInt(cursor.getColumnIndex("city_cityID")),cursor.getDouble(cursor.getColumnIndex("lat")),cursor.getDouble(cursor.getColumnIndex("long")));
+        }
+        else {
+            pl=new Place(10000,"This Place is not in DB",null,null,null,null,-1,0.0,0.0);
+        }
+        return pl;
+    }
     public int getCityID(String city){
         SQLiteDatabase database = this.getReadableDatabase();
         String select_item_dist_Query1 = "SELECT townid FROM town where townname='"+city+"'";
