@@ -16,7 +16,7 @@ import it.uom.group10.journeyrider.NetLink.Place;
 public class JRdb extends SQLiteOpenHelper {
     Context con;
     public JRdb(Context context) {
-        super(context, "tourguide8.db", null, 1);
+        super(context, "tourguide8.db", null, 1);//Your database name and version
         con=context;
 
     }
@@ -24,7 +24,7 @@ public class JRdb extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
-
+//Make tables
 
             String cr_plc = "CREATE TABLE place (" +
                     "  placeID INTEGER NOT NULL DEFAULT '0' PRIMARY KEY," +
@@ -70,7 +70,7 @@ public class JRdb extends SQLiteOpenHelper {
         //return cursor;
     }
 
-    public String[] getAllCategory(){
+    public String[] getAllCategory(){ //Retrive all categories and mae arry of strings with results-- for set adapter in serach window
         SQLiteDatabase database = this.getReadableDatabase();
 
         String select_item_cat_Query = "SELECT * FROM category";
@@ -86,7 +86,7 @@ public class JRdb extends SQLiteOpenHelper {
         return results;
 
     }
-    public void insertNewdummyData(){
+    public void insertNewdummyData(){//insert dummy data for debug purpose
         SQLiteDatabase database=this.getWritableDatabase();
         ContentValues values =new ContentValues();
         values.put("id",1);
@@ -250,7 +250,7 @@ public class JRdb extends SQLiteOpenHelper {
     }
 
 
-    public String[] getAllDistrict(){
+    public String[] getAllDistrict(){//Retirve all ditsricts and make a string of array
         try {
             insertNewdummyData();
             insertDummyData();
@@ -274,7 +274,7 @@ public class JRdb extends SQLiteOpenHelper {
         return results;
     }
 
-    public int getDistID(String districtName){
+    public int getDistID(String districtName){//when district name given id of ditrict is returned
         SQLiteDatabase database = this.getReadableDatabase();
 
         String select_item_dist_Query = "SELECT districtid FROM district where districtname='"+districtName+"'";
@@ -292,7 +292,7 @@ public class JRdb extends SQLiteOpenHelper {
     }
 
 
-    public String[] getAllTown(int district){
+    public String[] getAllTown(int district){//get all town in given ditrict
         SQLiteDatabase database = this.getReadableDatabase();
 
         String select_item_dist_Query = "SELECT townname FROM town where districtid='"+district+"'";
@@ -310,7 +310,7 @@ public class JRdb extends SQLiteOpenHelper {
     }
 
 
-    public Place[] getAllPlaces(String city){
+    public Place[] getAllPlaces(String city){//get all places in the given city
         SQLiteDatabase database = this.getReadableDatabase();
         int cityID=getCityID(city);
         String select_item_dist_Query = "SELECT * FROM place where city_cityID='"+cityID+"'";
@@ -329,7 +329,7 @@ public class JRdb extends SQLiteOpenHelper {
 
     }
 
-    public Place[] getAllPlacesFilter(String city,String type){
+    public Place[] getAllPlacesFilter(String city,String type){//get all places in the given city with given type
         SQLiteDatabase database = this.getReadableDatabase();
         int cityID=getCityID(city);
         String select_item_dist_Query = "SELECT * FROM place where city_cityID='"+cityID+"' and catid='"+type+"'";

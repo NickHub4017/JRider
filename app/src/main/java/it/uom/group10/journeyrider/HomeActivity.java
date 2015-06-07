@@ -55,39 +55,39 @@ import it.uom.group10.journeyrider.NetLink.Place;
 
 
 public class HomeActivity extends ActionBarActivity implements ShowDetailsFragment.OnButtonClickListner,LocationListener ,Search_places.comTomap,GetAccomadation.CallTomap,Progress.progresscom{
-    GoogleMap googleMap;
-    JRdb db=new JRdb(this);
-    private DrawerLayout drawerLayout;
-    private ListView listview;
+    GoogleMap googleMap;//Google map object
+    JRdb db=new JRdb(this);//Databse instance
+    private DrawerLayout drawerLayout;//Drwer layout.. screen come from left side
+    private ListView listview;//List in the drawer
     private String[] planets;
     private ActionBarDrawerToggle drawerListner;
     Polyline k;
     int x=0;
-    Polyline line;
-    Progress prg = new Progress();
+    Polyline line;//Varibale to hold the currently drwan path
+    Progress prg = new Progress();//Object of the brogreess bar when select navigate
 
 
 
 
-    LocationManager locationManager;
-    static LatLng mypos=new LatLng(0,0);
-    static Marker mymrk=null;
+    LocationManager locationManager;//GPS location listner
+    static LatLng mypos=new LatLng(0,0);//record the current location of user
+    static Marker mymrk=null;//record the current marker of user
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        drawerLayout =(DrawerLayout)findViewById(R.id.drawerLayout);
-        planets=getResources().getStringArray(R.array.planets);
-        listview =(ListView)findViewById(R.id.drawerList);
-        listview.setAdapter(new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,planets));
+        drawerLayout =(DrawerLayout)findViewById(R.id.drawerLayout);//assign rawet layout
+        planets=getResources().getStringArray(R.array.planets);//assign arry of menu in list in drawer
+        listview =(ListView)findViewById(R.id.drawerList);//create list view from array
+        listview.setAdapter(new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,planets));//set array adapter to listview
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         //locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 4000, 0, listener);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,0, this);
 
 
-        drawerListner=new ActionBarDrawerToggle(this,drawerLayout,R.string.drawer_open,R.string.drawer_close){
+        drawerListner=new ActionBarDrawerToggle(this,drawerLayout,R.string.drawer_open,R.string.drawer_close){ //what happens when drwer open and close are define here
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
@@ -104,9 +104,9 @@ public class HomeActivity extends ActionBarActivity implements ShowDetailsFragme
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getApplicationContext(), planets[i], Toast.LENGTH_LONG).show();
-                if(i==1){
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {//define wht need to happen when clik on a enu itemm in drawer
+                //Toast.makeText(getApplicationContext(), planets[i], Toast.LENGTH_LONG).show();
+                if(i==1){//if seearch selected dialog to serach places must be pop up
                     FragmentManager fm = getFragmentManager();
                     Search_places s_places = new Search_places(getApplicationContext());
                     s_places.setRetainInstance(true);
@@ -114,7 +114,7 @@ public class HomeActivity extends ActionBarActivity implements ShowDetailsFragme
                     s_places.setShowsDialog(true);
                     s_places.setStyle(s_places.STYLE_NO_TITLE,0);
                 }
-                else if (i==2){
+                else if (i==2){//dialog o search accomaodation must pop up
                     FragmentManager fm = getFragmentManager();
                     GetAccomadation getAc = new GetAccomadation();
                     getAc.setRetainInstance(true);
@@ -134,7 +134,7 @@ public class HomeActivity extends ActionBarActivity implements ShowDetailsFragme
                     prg.setShowsDialog(true);
                     prg.setStyle(prg.STYLE_NO_TITLE,0);
                 }
-                else if (i==5){
+                else if (i==5){//about us window must shown
                     FragmentManager fm = getFragmentManager();
                     AboutUs about = new AboutUs();
                     about.setRetainInstance(true);
@@ -143,12 +143,12 @@ public class HomeActivity extends ActionBarActivity implements ShowDetailsFragme
                     about.setStyle(about.STYLE_NO_TITLE,0);
                 }
 
-                drawerLayout.closeDrawer(Gravity.LEFT);
+                drawerLayout.closeDrawer(Gravity.LEFT);//when item clicks drwer must be close.
             }
         });
 
 
-        drawerLayout.setDrawerListener(drawerListner);
+        drawerLayout.setDrawerListener(drawerListner);//set the above created listner to drawer.
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setLogo(R.drawable.ic_menu_click);
@@ -177,22 +177,22 @@ public class HomeActivity extends ActionBarActivity implements ShowDetailsFragme
 
         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
-            public boolean onMarkerClick(Marker marker) {
+            public boolean onMarkerClick(Marker marker) {//when user clic on the marer
                 FragmentManager fm = getFragmentManager();
 
                 Bundle bundle = new Bundle();
                 bundle.putDouble("toDataLat", (double)marker.getPosition().latitude);
-                bundle.putDouble("toDataLong",(double)marker.getPosition().longitude);
-                if(mymrk==null){
+                bundle.putDouble("toDataLong",(double)marker.getPosition().longitude);//location of the selected place is send to detailed view with
+                if(mymrk==null){ //if gps not locked send 0.0
                     bundle.putDouble("fromDataLat",0.0);
                     bundle.putDouble("fromDataLong",0.0);
                 }
-                else {
+                else {//is gps set send current location
                     bundle.putDouble("fromDataLat", (double) mymrk.getPosition().latitude);
                     bundle.putDouble("fromDataLong", (double) mymrk.getPosition().longitude);
                 }
 // set Fragmentclass Arguments
-try {
+try {//start the fragmnet of detais showing
     ShowDetailsFragment testfr = new ShowDetailsFragment(getApplicationContext());
     testfr.setArguments(bundle);
     testfr.setRetainInstance(true);
@@ -211,7 +211,7 @@ catch (Exception e){
 
     }
 
-    public void markPositions(double x,double y,String name){
+    public void markPositions(double x,double y,String name){//when gives the position and tiltle this method create marker
         googleMap.addMarker(new MarkerOptions().position(new LatLng(x,y)).title(name).draggable(false));
 
     }
@@ -264,7 +264,7 @@ catch (Exception e){
     }
 
     @Override
-    public void onBtnClick(int position,double fromLat,double fromLon,double toLat,double toLon) {
+    public void onBtnClick(int position,double fromLat,double fromLon,double toLat,double toLon) {//when user selec navigate in details window
         if(position==R.id.btn_can){
         }
         else if (position==R.id.bn_nav){
@@ -272,7 +272,7 @@ catch (Exception e){
                 if (line!=null){
                     line.remove();
                     line=null;
-                }
+                }//request path from google
                 new ReadTask().execute("https://maps.googleapis.com/maps/api/directions/json?origin="+mymrk.getPosition().latitude+"%2C"+mymrk.getPosition().longitude+"&destination="+toLat+"%2C"+toLon+"&waypoints=optimize:true%7C"+fromLat+"%2C"+fromLon+"%7C"+toLat+"%2C"+toLon+"&sensor=false");
             }
             catch (Exception e){
@@ -284,8 +284,8 @@ catch (Exception e){
     }
 
     @Override
-    public void onLocationChanged(Location location) {
-        if (mymrk==null){
+    public void onLocationChanged(Location location) { //when the current gps location is changed
+        if (mymrk==null){//at first time gps logging.
             mymrk=googleMap.addMarker(new MarkerOptions().position(mypos).title("me").draggable(false));
             mymrk.setPosition(new LatLng(location.getLatitude(),location.getLongitude()));
         }
@@ -319,7 +319,7 @@ catch (Exception e){
     }
 
     @Override
-    public void ComToMap(String dist,String twn,String cat,String pla) {
+    public void ComToMap(String dist,String twn,String cat,String pla) {//when user select the places to serach search windows data sends here
 
         if (dist.isEmpty() ){
             Toast.makeText(getApplicationContext(),"You need to select at District to serach ",Toast.LENGTH_LONG).show();

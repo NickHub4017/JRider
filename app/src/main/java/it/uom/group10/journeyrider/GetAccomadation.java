@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 
-public class GetAccomadation extends DialogFragment {
+public class GetAccomadation extends DialogFragment {//In here it will show the all accomodation places
 CallTomap callmap;
     @Nullable
     @Override

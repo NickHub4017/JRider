@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by NRV on 5/25/2015.
  */
-public class Place implements Serializable {
+public class Place implements Serializable {//Objet of places that contains etails of a place
     public Place(double lat, double lon, String placeName) {
         this.lat = lat;
         this.lon = lon;
